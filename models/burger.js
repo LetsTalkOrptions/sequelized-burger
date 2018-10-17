@@ -1,20 +1,23 @@
-var orm = require("../config/orm");
+var Sequelize = require("sequelize");
 
-var burger = {
-  all: function(cb) {
-    orm.all("burgers", function(res) {
-      cb(res);
-    });
-  },
-  create: function(name, cb) {
-    orm.create("burgers", ["burger_name", "devoured"], [name, false], cb);
-  },
-  update: function(id, cb) {
-    var condition = "id=" + id;
-    orm.update("burgers", {
-      devoured: true
-    }, condition, cb);
-  }
+// DB Connection
+var sequelize = require("../config/connection");
+
+module.exports = function(sequelize) {
+
+  var Burger = sequelize.define('Burger', {
+    burger_name: {
+      type: Sequelize.STRING,
+      allowNull: false 
+    },
+    // Only allow a true/false here, defaulted to false (not eaten yet)
+    devoured: {
+      type: Sequelize.BOOLEAN,
+      allowNull: false,
+      defaultValue: false
+    }
+  });
+  // Return results of the burger conditions
+  return Burger;
+
 };
-
-module.exports = burger;
