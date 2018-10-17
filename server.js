@@ -1,6 +1,7 @@
 var express = require("express");
 
 var app = express();
+var bodyParser = require('body-parser');
 // Serve static content for the app from the "public" directory in the application directory.
 app.use(express.static("public"));
 
@@ -15,12 +16,14 @@ app.engine("handlebars", exphbs({
 }));
 app.set("view engine", "handlebars");
 
-var routes = require("./controllers/burgers_controller");
+var routes = require("./controllers/burgers_controller.js");
 
-app.use(routes);
+app.use('/', routes);
 
 // listen on port 3000
 var PORT = process.env.PORT || 3000;
 app.listen(PORT, function() {
   console.log("App listening on PORT " + PORT);
 });
+
+module.exports = app;
